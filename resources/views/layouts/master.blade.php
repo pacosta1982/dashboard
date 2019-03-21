@@ -36,18 +36,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini sidebar-collapse">
     @guest @yield('content') @else
     <div class="wrapper" id="app">
         <!-- Header -->
     @include('layouts.header')
         <!-- Sidebar -->
-    @include('layouts.sidebar') @yield('content')
+    @include('layouts.sidebar') 
+    
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                    @yield('titulo')
+                    @yield('breadcrumb')
+              </div>
+            </div><!-- /.container-fluid -->
+          </section>
+              <section class="content">
+                    <div class="container-fluid">
+                            @yield('content')
+                    </div>
+                </section>
+            </div>
+            
+             
+    
         <!-- Footer -->
     @include('layouts.footer')
     </div>
     <!-- ./wrapper -->
     @endguest @yield('javascript')
-    
+    <script src="/dist/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+    $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="/dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AdminLTE App -->
+    <script src="/dist/js/adminlte.js"></script>
 </body>
 </html>
