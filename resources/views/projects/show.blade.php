@@ -28,7 +28,7 @@
         <div class="card-header">
           <h3 class="card-title">
               <h4>
-                  <i class="fa fa-globe"></i> {{$project->SEOBProy }}
+                  <i class="fa fa-globe"></i> {{utf8_encode($project->SEOBProy) }}
                   <small class="float-right">Date: 2/10/2014</small>
                 </h4>
           </h3>

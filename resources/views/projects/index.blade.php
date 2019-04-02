@@ -198,7 +198,7 @@
                         'satname' =>$satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">{{(substr($project->SEOBNroExp,0,-2)).'-'.(substr($project->SEOBNroExp,-2))}}</a></td>
                 <td><a href="{!! action('HomeController@show', ['id'=>$project->SEOBId,'progid' => $progid 
                         ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','expnro' =>$expnro,'proyname' =>$proyname,
-                        'satname' =>$satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">{{$project->SEOBProy}}</a></td>
+                        'satname' =>$satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">{{utf8_encode($project->SEOBProy)}}</a></td>
                 <td>{{$project->SEOBEmpr}}</td>
                 <td style="text-align:center;">
                     @if($project->SEOBVTA == 'S')
