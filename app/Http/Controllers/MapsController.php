@@ -8,47 +8,31 @@ use App\Observacion;
 use App\ObservacionFonavis;
 use App\Programa;
 use App\Departamento;
+use App\Administracion;
 use App\Estado;
 use App\SIG005;
 use App\SIG006;
-use App\Administracion;
-use App\Terreno;
 use App\Meta;
 use Mapper;
-use App\Exports\HistorialExport;
 
-class HomeController extends Controller
+class MapsController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         
-        
         //$projects = Project::paginate(10);
         $programas = Programa::all();
         $departamentos = Departamento::all();
         $estados = Estado::all();
-        $administracion = Administracion::all();
         $projects = Project::query();
         $metas = Meta::all();
-        //$projects = $projects->where('SEOBTerr', '!=', null);
-        //$terrenos = Terreno::all();
-        //var_dump($terrenos);
-        //$projects = $projects->whereIn('SEOBTerr', ['A']);
+        $administracion = Administracion::all();
+
         if ($request->input('progid')) {
             $projects = $projects->where('SEOBProgr', $request->input('progid'));
         }
@@ -66,17 +50,13 @@ class HomeController extends Controller
         }
 
         if ($request->input('proyname')) {
-
             $searchTerm = $request->input('proyname');
             $projects = $projects->where('SEOBProy', 'LIKE', "%{$searchTerm}%"); 
-
         }
 
         if ($request->input('satname')) {
-
             $searchTermsat = $request->input('satname');
             $projects = $projects->where('SEOBEmpr', 'LIKE', "%{$searchTermsat}%"); 
-
         }
 
         if ($request->input('adminid')) {
@@ -115,7 +95,8 @@ class HomeController extends Controller
         }
 
         
-        $projects = $projects->paginate(10);
+
+        $projects = $projects->paginate(5000);
         $progid=$request->input('progid');
         $dptoid=$request->input('dptoid');
         $estadoid=$request->input('estadoid');
@@ -126,82 +107,114 @@ class HomeController extends Controller
         $adminid=$request->input('adminid');
         $metaid=$request->input('metaid');
         $porcentajeid=$request->input('porcentajeid');
-        
-        return view('projects.index',compact('projects','adminid','porcentajeid','administracion','metaid','programas','progid','departamentos','dptoid','estados','estadoid','page','expnro','proyname','satname','metas'));
-    }
 
-    public function show($id,Request $request)
-    {
-        
-        $project = Project::find($id);
-        $observaciones = Observacion::where('SEOBId',$project->SEOBId)
-        ->orderBy('SEOBFecObs', 'desc')
-        ->get();
-        if ($project->SEOBPtoNro) {
-            $observacionesfonavis = ObservacionFonavis::where('SegPtoNro',$project->SEOBPtoNro)
-            ->orderBy('SPDetFec', 'desc')
-            ->get();
-        }else{
-            $observacionesfonavis ='';
+
+        $map = Mapper::map(-25.3006592, -57.63591);
+
+
+        foreach ($projects as $key => $project) {
+            try {
+                
+                $depto=$project->DptoId?$project->departamento->DptoNom:"";
+                $distrito=$project->CiuId?$project->distrito->CiuNom:"";
+                $avance =number_format($project->SEOBFisAva,0,'.','.');
+                $contentString = '<div id="content">'.
+                '<div id="siteNotice">'.
+                '</div>'.
+                '<h4 id="firstHeading" >'.$project->SEOBProy.'</h4>'.
+                '<div id="bodyContent">'.
+                '<p><b>SAT:</b> '.$project->SEOBEmpr.'<br>'.
+                '<b>Departamento:</b> '.$depto.'<br>'.
+                '<b>Distrito:</b> '.$distrito.'<br>'.
+                '<b>Estado:</b> '.$project->SEOBEst.'<br>'.
+                '<b>Total Casas:</b> '.$project->SEOBViv.'<br>'.
+                '<b>Total Avance:</b> '.$avance.'%<br></p>'.
+                '<div class="progress-bar bg-success" style="width: '.$project->SEOBFisAva.'% "></div>'.
+                '<p>Resumen del Proyecto:'.'<a href="/home/'.$project->SEOBId.'">'.$project->SEOBProy.'</a>'.
+                '</p>'.
+                '</div>'.
+                '</div>';
+                $latlong= $this->ToLL((int)$project->SEOBUtmY,(int)$project->SEOBUtmX,preg_replace("/[^0-9]/", '', $project->SEOBUtm1));
+                //$map = Mapper::map($latlong['lat'], $latlong['lon']);
+                //$map =  Mapper::marker($latlong['lat'], $latlong['lon'], ['draggable' => true, 'eventMouseOver' => 'console.log("mouse over");']);
+                $map =  Mapper::informationWindow($latlong['lat'], $latlong['lon'], $contentString, ['open' => false, 'maxWidth'=> 300, 'markers' => ['title' => $project->SEOBEmpr]]);
+            } catch (\Throwable $th) {
+                $map =  Mapper::marker(0, 0);
+            }
+            
         }
-        
-        //$project->SEOBUtmY
-        //$this->ToLL(y,x,zone)
-        try {
-            $latlong= $this->ToLL((int)$project->SEOBUtmY,(int)$project->SEOBUtmX,preg_replace("/[^0-9]/", '', $project->SEOBUtm1));
-            $map = Mapper::map($latlong['lat'], $latlong['lon']);
-        } catch (\Throwable $th) {
-            $map = Mapper::map(0, 0);
-        }
 
-        
-        $progid=$request->input('progid');
-        $dptoid=$request->input('dptoid');
-        $estadoid=$request->input('estadoid');
-        $page=$request->input('page');
-        $expnro=$request->input('expnro');
-        $proyname=$request->input('proyname');
-        $satname=$request->input('satname');
-        $adminid=$request->input('adminid');
-        $metaid=$request->input('metaid');
-        $porcentajeid=$request->input('porcentajeid');
+        //->marker(-23.442503, -58.4438324);
 
-        return view('projects.show',compact('project','adminid','metaid','porcentajeid','map','progid','dptoid','estadoid','page','observaciones','observacionesfonavis','expnro','proyname','satname'));
-
+        return view('mapas.index',compact('projects','metas','programas','progid','departamentos','dptoid','estados','estadoid',
+        'page','expnro','map','proyname','satname','administracion','adminid','metaid','porcentajeid'));
+        //
     }
 
-    public function showexp($id,$idexp,Request $request){
-
-        $expediente = SIG005::where('NroExp',$idexp)
-        ->where('NroExpS',$request->input('NroExpS'))
-        ->first();
-
-        $historial = SIG006::where('NroExp',$idexp)
-        ->where('NroExpS',$request->input('NroExpS'))
-        ->orderBy('DENroLin', 'asc')
-        ->get();
-        //var_dump('AJFBkjfbadskjbvf'.$expediente->count().'a');
-
-        $progid=$request->input('progid');
-        $dptoid=$request->input('dptoid');
-        $estadoid=$request->input('estadoid');
-        $page=$request->input('page');
-        $expnro=$request->input('expnro');
-        $proyname=$request->input('proyname');
-        $satname=$request->input('satname');
-        $adminid=$request->input('adminid');
-        $metaid=$request->input('metaid');
-        $porcentajeid=$request->input('porcentajeid');
-
-        return view('projects.showexp',compact('expediente','adminid','metaid','porcentajeid','progid','dptoid','estadoid','page','historial','expnro','proyname','satname'));
-
-    }
-
-    public function csvhistorial(Request $request)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
- 
-        return (new HistorialExport($request->input('idexp'),$request->input('NroExpS')))->download('Historial_expediente_'.$request->input('idexp').'.xlsx'); 
+        //
+    }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 
     public function ToLL($north, $east, $utmZone)

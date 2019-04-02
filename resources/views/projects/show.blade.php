@@ -11,7 +11,8 @@
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="#">Inicio</a></li>
         <li class="breadcrumb-item">
-          <a href="{!! action('HomeController@index', ['progid' => $progid,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1']) !!}">
+          <a href="{!! action('HomeController@index', ['progid' => $progid,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','proyname' => $proyname,
+          'satname' => $satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">
             Proyectos
           </a>
         </li>
@@ -41,7 +42,8 @@
                     Departamento: {!! $project->DptoId?$project->departamento->DptoNom:"" !!}<br>
                     Distrito: {!! $project->CiuId?$project->distrito->CiuNom:"" !!}<br>
                     Expediente: <a href="{!! action('HomeController@showexp', ['id'=>$project->SEOBId,'NroExpS'=>$project->SEOBNroExpS,'idexp'=>$project->SEOBNroExp,'progid' => $progid
-                        ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1']) !!}">{{(substr($project->SEOBNroExp,0,-2)).'-'.(substr($project->SEOBNroExp,-2))}}</a><br>
+                        ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','proyname' => $proyname,
+          'satname' => $satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">{{(substr($project->SEOBNroExp,0,-2)).'-'.(substr($project->SEOBNroExp,-2))}}</a><br>
                     Estado: {!! $project->SEOBEst !!}<br>
                     Total Casas: {{$project->SEOBViv}}<br>
                     Total Avance: {!! number_format($project->SEOBFisAva,0,'.','.')  !!}%<br>

@@ -1,9 +1,57 @@
 @extends('layouts.master') 
+
+@section('css')
+<style>
+        .border{
+            border-color: black;
+        }
+           .imagencentro{
+               
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            max-width:100%;
+            max-height:100%;
+            margin-top: 50px;
+           }    
+           .center{
+               text-align: center;
+           }
+        
+           .total{
+            font-weight: bold;
+            
+        }
+        
+        .titulo{
+            margin-top: 20px;
+            text-align: center;
+            margin-bottom: -60px;
+        }
+
+        body {
+            
+            background-color: #a1b3d1;
+        }
+        
+        </style>
+@endsection
 @section('content')
-<div class="login-box">
-    <div class="login-logo">
-        Laravel Starter
+<div class="row">
+    <div class="col-md-4">
+            <img src="{{asset('img/CASTELLANO-Y-GURANI-min-de-la-vivienda.png')}}" class="imagencentro" width="230" height="70">
     </div>
+    <div class="col-md-4">
+            <img src="{{asset('img/gobierno-nacional.png')}}" class="imagencentro"  width="250" height="60">
+    </div>
+    <div class="col-md-4">
+            <img src="{{asset('img/slogan.png')}}" class="imagencentro" width="220" height="70">
+    </div>
+</div>
+
+
+<div class="login-box">
+    <h2 class="center"><strong>Tablero de Control</strong></h2>
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">{{ __('Login') }}</p>
@@ -32,38 +80,21 @@
                     <div class="col-8">
                         <div class="checkbox icheck">
                             <label>
-                <input type="checkbox"> Remember Me
+                <input type="checkbox"> Recuerdame
               </label>
                         </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Acceder</button>
                     </div>
                     <!-- /.col -->
                 </div>
             </form>
-
-            <div class="social-auth-links text-center mb-3">
-                <p>- OR -</p>
-                <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook-f mr-2"></i> Sign in using Facebook
-        </a>
-                <a href="#" class="btn btn-block btn-danger">
-          <i class="fab fa-google-plus-g mr-2"></i> Sign in using Google+
-        </a>
-            </div>
-            <!-- /.social-auth-links -->
-
-            <p class="mb-1">
-                <a href="#">I forgot my password</a>
-            </p>
-            <p class="mb-0">
-                <a href="{{route('register')}}" class="text-center">Register a new membership</a>
-            </p>
         </div>
         <!-- /.login-card-body -->
     </div>
 </div>
 <!-- /.login-box -->
 @endsection
+

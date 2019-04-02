@@ -10,6 +10,8 @@ class SIG0001 extends Model
 
     protected $primaryKey = 'TexCod';
 
+    protected $connection = 'sqlsrv';
+
     /*public function distrito() {
         return $this->hasOne('App\Distrito','CiuId','CiuId');
     }

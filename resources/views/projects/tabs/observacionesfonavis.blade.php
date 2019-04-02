@@ -12,7 +12,7 @@
         <td style="text-align:center;">
           @if($obs->SPDetNrExp != 0)
         
-          <a href="{!! action('HomeController@showexp', ['id'=>$project->SEOBId,'NroExpS'=>'A','idexp'=>$project->SEOBNroExp,'progid' => $progid
+          <a href="{!! action('HomeController@showexp', ['id'=>$project->SEOBId,'NroExpS'=>'A','idexp'=>$obs->SPDetNrExp,'progid' => $progid
               ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1']) !!}">{{(substr($obs->SPDetNrExp,0,-2)).'-'.(substr($obs->SPDetNrExp,-2))}}</a>
 
         @else 

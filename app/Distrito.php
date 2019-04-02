@@ -9,6 +9,8 @@ class Distrito extends Model
     protected $table = 'LOCALIDA';
 
     protected $primaryKey = 'CiuId';
+
+    protected $connection = 'sqlsrv';
     
 
     //public $timestamps = false;

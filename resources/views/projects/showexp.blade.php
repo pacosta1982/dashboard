@@ -11,7 +11,7 @@
     <ol class="breadcrumb float-sm-right">
         <li class="breadcrumb-item"><a href="#">Inicio</a></li>
         <li class="breadcrumb-item">
-          <a href="{!! action('HomeController@index', ['progid' => $progid,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1']) !!}">
+          <a href="{!! action('HomeController@index', ['progid' => $progid,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','proyname' => $proyname,'satname' => $satname]) !!}">
             Proyectos
           </a>
         </li>
@@ -50,10 +50,12 @@
                       
                   </dl>
                 </div>
-              <div class="col-sm-8">
-                  
-              </div>
+
             </div>
+            <a href="{!! action('HomeController@csvhistorial', ['NroExpS'=>$expediente->NroExpS,'idexp'=>$expediente->NroExp]) !!}"><button type="button" class="btn btn-success  float-right"><i class="fa fa-file-excel-o"></i>
+              Exportar Historial
+            </button></a>
+            
         </div>
         <!-- /.card-body -->
       </div>
@@ -65,9 +67,10 @@
         <div class="card-header p-2">
           <ul class="nav nav-pills">
             <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Historial Expediente</a></li>
-            <!--   <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Observaciones Fonavis</a></li>
-            <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li> -->
+            <li class="nav-item"><a class="nav-link " href="#timeline" data-toggle="tab">Timeline Expediente</a></li>
+            <!--<li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li> -->
           </ul>
+          
         </div><!-- /.card-header -->
         <div class="card-body">
           <div class="tab-content">
@@ -75,9 +78,9 @@
                 @include('projects.tabs.historial')
             </div>
             <!-- /.tab-pane -->
-            <div class="tab-pane" id="timeline">
+            <div class=" tab-pane" id="timeline">
 
-
+                @include('projects.tabs.timeline')
             </div>
             <!-- /.tab-pane -->
 

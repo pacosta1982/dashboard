@@ -10,6 +10,8 @@ class SIG008 extends Model
 
     protected $primaryKey = 'DepenCod';
 
+    protected $connection = 'sqlsrv';
+
     /*public function distrito() {
         return $this->hasOne('App\Distrito','CiuId','CiuId');
     }

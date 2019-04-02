@@ -12,7 +12,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="/img/profile.png" class="img-circle elevation-2" alt="User Image">
+                <img src="{{ Gravatar::get($user->email) }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="#" class="d-block"> {{auth()->user()->name!=null ? auth()->user()->name : "Administrator"}} </a>
@@ -32,21 +32,29 @@
               </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{url('/inicio')}}" class="nav-link">
+                    <a href="{{url('/mapas')}}" class="nav-link">
                       <i class="nav-icon fa fas fa-globe"></i>
                       <p>Mapa</p>
                     </a>
                   </li>
                 <li class="nav-item">
-                  <a href="{{url('/inicio')}}" class="nav-link">
+                  <a href="{{url('/inicio')}}" class="nav-link ">
                     <i class="nav-icon fa fa-bar-chart"></i>
                     <p>Graficos</p>
                   </a>
                 </li>
+                <div class="brand-link"></div>
+                <li class="nav-item">
+                    <a href="{{url('/logout')}}" class="nav-link">
+                      <i class="nav-icon fa fa-fw fa-power-off"></i>
+                      <p>Salir</p>
+                    </a>
+                  </li>
                                
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
+        
     </div>
     <!-- /.sidebar -->
 </aside>

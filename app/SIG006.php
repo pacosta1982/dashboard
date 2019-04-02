@@ -8,6 +8,8 @@ class SIG006 extends Model
 {
     protected $table = 'SIG006';
 
+    protected $connection = 'sqlsrv';
+
     public function deporigen() {
         return $this->hasOne('App\SIG008','DepenCod','DEUnOrDe');
     }
