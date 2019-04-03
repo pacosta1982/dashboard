@@ -23,6 +23,7 @@
         <div class="card-body">
                 <form action="/filtrosmapa" method="post">
                     @csrf
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="row">
                 
                 <div class="col-md-3">
