@@ -18,7 +18,7 @@
 
 @section('content')
 
-<<div class="card card-info card-outline">
+<div class="card card-info card-outline">
 
         <div class="card-body">
                 <form action="/filtrosmapa" method="post">
