@@ -121,9 +121,9 @@ class MapsController extends Controller
                 $contentString = '<div id="content">'.
                 '<div id="siteNotice">'.
                 '</div>'.
-                '<h4 id="firstHeading" >'.utf8_encode($project->SEOBProy).'</h4>'.
+                '<h4 id="firstHeading" >Demo</h4>'.
                 '<div id="bodyContent">'.
-                '<p><b>SAT:</b> '.utf8_encode($project->SEOBEmpr).'<br>'.
+                /*'<p><b>SAT:</b> '.utf8_encode($project->SEOBEmpr).'<br>'.
                 '<b>Departamento:</b> '.$depto.'<br>'.
                 '<b>Distrito:</b> '.$distrito.'<br>'.
                 '<b>Estado:</b> '.$project->SEOBEst.'<br>'.
@@ -132,7 +132,7 @@ class MapsController extends Controller
                 '<div class="progress-bar bg-success" style="width: '.$project->SEOBFisAva.'% "></div>'.
                 '<p>Resumen del Proyecto:'.'<a href="/home/'.$project->SEOBId.'">'.utf8_encode($project->SEOBProy).'</a>'.
                 '</p>'.
-                '</div>'.
+                '</div>'.*/
                 '</div>';
                 $latlong= $this->ToLL((int)$project->SEOBUtmY,(int)$project->SEOBUtmX,preg_replace("/[^0-9]/", '', $project->SEOBUtm1));
                 //$map = Mapper::map($latlong['lat'], $latlong['lon']);
