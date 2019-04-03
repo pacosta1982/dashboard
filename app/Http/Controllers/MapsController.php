@@ -121,9 +121,9 @@ class MapsController extends Controller
                 $contentString = '<div id="content">'.
                 '<div id="siteNotice">'.
                 '</div>'.
-                '<h4 id="firstHeading" >'.$project->SEOBProy.'</h4>'.
+                '<h4 id="firstHeading" >'.utf8_encode($project->SEOBProy).'</h4>'.
                 '<div id="bodyContent">'.
-                '<p><b>SAT:</b> '.$project->SEOBEmpr.'<br>'.
+                '<p><b>SAT:</b> '.utf8_encode($project->SEOBEmpr).'<br>'.
                 '<b>Departamento:</b> '.$depto.'<br>'.
                 '<b>Distrito:</b> '.$distrito.'<br>'.
                 '<b>Estado:</b> '.$project->SEOBEst.'<br>'.
