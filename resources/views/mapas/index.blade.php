@@ -22,7 +22,7 @@
 
         <div class="card-body">
                 <form action="/filtrosmapa" method="post">
-                    {{ csrf_field() }}
+                    @csrf
             <div class="row">
                 
                 <div class="col-md-3">
