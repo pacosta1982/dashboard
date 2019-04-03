@@ -130,7 +130,7 @@ class MapsController extends Controller
                 '<b>Total Casas:</b> '.$project->SEOBViv.'<br>'.
                 '<b>Total Avance:</b> '.$avance.'%<br></p>'.
                 '<div class="progress-bar bg-success" style="width: '.$project->SEOBFisAva.'% "></div>'.
-                '<p>Resumen del Proyecto:'.'<a href="/home/'.$project->SEOBId.'">'.$project->SEOBProy.'</a>'.
+                '<p>Resumen del Proyecto:'.'<a href="/home/'.$project->SEOBId.'">'.utf8_encode($project->SEOBProy).'</a>'.
                 '</p>'.
                 '</div>'.
                 '</div>';
