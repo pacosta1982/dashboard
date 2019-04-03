@@ -124,7 +124,7 @@ class MapsController extends Controller
                 '<h4 id="firstHeading" >Demo</h4>'.
                 '<div id="bodyContent">'.
                 '<p><b>SAT:</b> '.utf8_encode($project->SEOBEmpr).'<br>'.
-                '<b>Departamento:</b> '.$depto.'<br>'.
+                '<b>Departamento:</b> '.utf8_encode($depto).'<br>'.
                 /*'<b>Distrito:</b> '.$distrito.'<br>'.
                 '<b>Estado:</b> '.$project->SEOBEst.'<br>'.
                 '<b>Total Casas:</b> '.$project->SEOBViv.'<br>'.
