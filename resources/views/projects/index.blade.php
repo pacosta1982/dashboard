@@ -199,7 +199,7 @@
                 <td><a href="{!! action('HomeController@show', ['id'=>$project->SEOBId,'progid' => $progid 
                         ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','expnro' =>$expnro,'proyname' =>$proyname,
                         'satname' =>$satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">{{utf8_encode($project->SEOBProy)}}</a></td>
-                <td>{{$project->SEOBEmpr}}</td>
+                <td>{{utf8_encode($project->SEOBEmpr)}}</td>
                 <td style="text-align:center;">
                     @if($project->SEOBVTA == 'S')
                     <i class="fa fa-check" style="color:forestgreen"></i>
