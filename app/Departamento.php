@@ -10,5 +10,5 @@ class Departamento extends Model
 
     protected $primaryKey = 'DptoId';
 
-    protected $connection = 'sqlsrv';
+    //protected $connection = 'sqlsrv';
 }

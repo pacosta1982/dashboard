@@ -38,7 +38,7 @@
                     </a>
                   </li>
                 <li class="nav-item">
-                  <a href="{{url('/inicio')}}" class="nav-link ">
+                  <a href="{{url('/graficos')}}" class="nav-link ">
                     <i class="nav-icon fa fa-bar-chart"></i>
                     <p>Graficos</p>
                   </a>

@@ -23,6 +23,8 @@ Route::get('/home/{id}/exp/{idexp}', 'HomeController@showexp');
 
 Route::resource('/mapas', 'MapsController');
 
+Route::resource('/graficos', 'GraficosController');
+
 Route::get('/downloadhis', 'HomeController@csvhistorial');
 
 Route::post('/filtros', 'HomeController@index');
@@ -30,6 +32,9 @@ Route::get('/filtros', 'HomeController@index');
 
 Route::post('/filtrosmapa', 'MapsController@index');
 Route::get('/filtrosmapa', 'MapsController@index');
+
+Route::post('/filtrosgraficos', 'GraficosController@index');
+Route::get('/filtrosgraficos', 'GraficosController@index');
 
 Route::get('/dashboard/home', 'DashboardController@versionone')->name('home');
 Route::get('/dashboard/v2', 'DashboardController@versiontwo')->name('v2');

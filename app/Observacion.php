@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Observacion extends Model
 {
     protected $table = 'SEGOBRA1';
-    protected $connection = 'sqlsrv';
+    //protected $connection = 'sqlsrv';
 
     //protected $primaryKey = 'SEOBId';
 
