@@ -141,7 +141,7 @@ class GraficosController extends Controller
         $dto = [];
         foreach ($casas as $key => $value) {
             array_push($arr,$value->total);
-            array_push($dto,rtrim($value->DptoId?$value->departamento->DptoNom:""));
+            array_push($dto,utf8_encode(rtrim($value->DptoId?$value->departamento->DptoNom:"")));
            
             //$planif+=$value->TabGer01VivPla;
         }
