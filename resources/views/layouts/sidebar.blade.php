@@ -34,7 +34,13 @@
                 <li class="nav-item">
                     <a href="{{url('/mapas')}}" class="nav-link">
                       <i class="nav-icon fa fas fa-globe"></i>
-                      <p>Mapa</p>
+                      <p>Mapa de Proyectos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{url('/viviendas')}}" class="nav-link">
+                      <i class="nav-icon fa fas fa-home"></i>
+                      <p>Mapa de Viviendas</p>
                     </a>
                   </li>
                 <li class="nav-item">

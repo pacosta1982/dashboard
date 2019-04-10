@@ -49,29 +49,16 @@ class GraficosController extends Controller
         $avancemalo = Project::query();
 
         $casas = Project::query();
-        //$user_info = $user_info->selectRaw('DptoId, (SUM(2) as total'))
-        //$user_info = $user_info->groupBy('DptoId')
-        //->get();
-        /*$user_info = Project::groupBy('DptoId')
-        //->select('DptoId', \DB::raw('SUM(2) as total'))
-        ->selectRaw('sum(SEOBViv) as sum, DptoId')
-        ->pluck('sum','users_editor_id');
-        //->whereNotIn('DptoId',[0])
-        //->orderBy('DptoId')
-        //->get();
-        dd($user_info);
-        $arr = [];
-        foreach ($user_info as $key => $value) {
-            array_push($arr,$value->sum);
-           
-            //$planif+=$value->TabGer01VivPla;
-        }*/
+        $casasiniciada = Project::query();
+        $casasparalizada = Project::query();
 
-        //array_pop($arr);
-        //dd($arr);
+        $consolidado = Project::query();
+
         $metas = Meta::all();
         $administracion = Administracion::all();
-
+        $casas = $casas->select('DptoId', \DB::raw('SUM("SEOBViv") as total'));
+        $casasiniciada = $casasiniciada->select('DptoId', \DB::raw('SUM("SEOBViv") as total'));
+        $casasparalizada = $casasparalizada->select('DptoId', \DB::raw('SUM("SEOBViv") as total'));
         
 
         if ($request->input('progid')) {
@@ -85,6 +72,10 @@ class GraficosController extends Controller
             $avancemalo = $avancemalo->where('SEOBProgr', $request->input('progid'));
 
             $casas = $casas->where('SEOBProgr', $request->input('progid'));
+            $casasiniciada = $casasiniciada->where('SEOBProgr', $request->input('progid'));
+            $casasparalizada = $casasparalizada->where('SEOBProgr', $request->input('progid'));
+            $consolidado = $consolidado->where('SEOBProgr', $request->input('progid'));
+            //$casasiniciada = $casas->select('DptoId', \DB::raw('SUM("SEOBViv") as total'));
         }
 
         if ($request->input('dptoid')) {
@@ -112,6 +103,12 @@ class GraficosController extends Controller
             $avancemedio = $avancemedio->where('SEOBAdmin', $request->input('adminid'));
             $avancemalo = $avancemalo->where('SEOBAdmin', $request->input('adminid'));
 
+            $casas = $casas->where('SEOBAdmin', $request->input('adminid'));
+            $casasiniciada = $casasiniciada->where('SEOBAdmin', $request->input('adminid'));
+            $casasparalizada = $casasparalizada->where('SEOBAdmin', $request->input('adminid'));
+
+            $consolidado = $consolidado->where('SEOBAdmin', $request->input('adminid'));
+
             //$casas = $casas->where('SEOBAdmin', $request->input('SEOBAdmin'));
 
         }
@@ -126,28 +123,75 @@ class GraficosController extends Controller
             $avancebueno = $avancebueno->where('SEOBPlan', $request->input('metaid'));
             $avancemedio = $avancemedio->where('SEOBPlan', $request->input('metaid'));
             $avancemalo = $avancemalo->where('SEOBPlan', $request->input('metaid'));
-            //$casas = $casas->where('SEOBPlan', $request->input('SEOBPlan'));
+
+            $casas = $casas->where('SEOBPlan', $request->input('metaid'));
+            $casasiniciada = $casasiniciada->where('SEOBPlan', $request->input('metaid'));
+            $casasparalizada = $casasparalizada->where('SEOBPlan', $request->input('metaid'));
+
+            $consolidado = $consolidado->where('SEOBPlan', $request->input('metaid'));
 
         }
+        $consolidado = $consolidado->orderBy('DptoId');
+        $consolidado = $consolidado->get();
 
-        $casas = $casas->select('DptoId', \DB::raw('SUM("SEOBViv") as total'));
+        //$q = [];
+        /*$arrayname 
+        for ($i=0; $i <= 18 ; $i++) { 
+            $q = $consolidado->filter(function($item,$i) {
+                return $item->DptoId == $i;
+            });
+            
+            $value= $q->sum('SEOBViv');
+            $arrayname[$i] = $value;
+            
+        }
+
+        var_dump('laksndksjbdkjsF    '.$arrayname);*/
+        //$q40 = $answers->filter(function($item) {return $item->question_id == 40;})->first();
         //$casas = $casas->select('DptoId', \DB::raw('SUM(2) as total'))
         $casas = $casas->whereNotIn('DptoId',[0]);
+        $casas = $casas->where('SEOBEst','=', 'I');
         $casas = $casas->groupBy('DptoId');
-        $casas = $casas->whereNotIn('DptoId',[0]);
         $casas = $casas->orderBy('DptoId', 'asc')->get();
+
+        $casasiniciada = $casasiniciada->whereNotIn('DptoId',[0]);
+        $casasiniciada = $casasiniciada->where('SEOBEst','=', 'E');
+        $casasiniciada = $casasiniciada->groupBy('DptoId');
+        $casasiniciada = $casasiniciada->orderBy('DptoId', 'asc')->get();
+
+        $casasparalizada = $casasparalizada->whereNotIn('DptoId',[0]);
+        $casasparalizada = $casasparalizada->where('SEOBEst','=', 'P');
+        $casasparalizada = $casasparalizada->groupBy('DptoId');
+        $casasparalizada = $casasparalizada->orderBy('DptoId', 'asc')->get();
 
         $arr = [];
         $dto = [];
+
+        $ini = [];
+
+        $par = [];
         foreach ($casas as $key => $value) {
             array_push($arr,$value->total);
             array_push($dto,utf8_encode(rtrim($value->DptoId?$value->departamento->DptoNom:"")));
-           
-            //$planif+=$value->TabGer01VivPla;
+
+        }
+
+        foreach ($casasiniciada as $key => $valueini) {
+            array_push($ini,$valueini->total);
+            //array_push($dto,utf8_encode(rtrim($value->DptoId?$value->departamento->DptoNom:"")));
+
+        }
+
+        foreach ($casasparalizada as $key => $valuepar) {
+            array_push($par,$valuepar->total);
+            //array_push($dto,utf8_encode(rtrim($value->DptoId?$value->departamento->DptoNom:"")));
+
         }
 
         array_pop($arr);
         array_pop($dto);
+        array_pop($ini);
+        array_pop($par);
         //->get();
 
 
@@ -204,19 +248,39 @@ class GraficosController extends Controller
         ->labels($dto)
         ->datasets([
             [
-                "label" => "Viviendas",
-                'backgroundColor' => "rgba(38, 185, 154, 0.31)",
-                'borderColor' => "rgba(38, 185, 154, 0.7)",
+                "label" => "A Iniciar",
+                'backgroundColor' => "#F6F454",
+                'borderColor' => "#F6F454",
                 "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
                 "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
                 "pointHoverBackgroundColor" => "#fff",
                 "pointHoverBorderColor" => "rgba(220,220,220,1)",
                 'data' => $arr,//$arr,
             ],
+            [
+                "label" => "En Ejecución",
+                'backgroundColor' => "#1FDC61",
+                'borderColor' => "#1FDC61",
+                "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
+                "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
+                "pointHoverBackgroundColor" => "#fff",
+                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                'data' => $ini ,
+            ],
+            [
+                "label" => "Paralizados",
+                'backgroundColor' => "#F86F5F",
+                'borderColor' => "#F86F5F",
+                "pointBorderColor" => "rgba(38, 185, 154, 0.7)",
+                "pointBackgroundColor" => "rgba(38, 185, 154, 0.7)",
+                "pointHoverBackgroundColor" => "#fff",
+                "pointHoverBorderColor" => "rgba(220,220,220,1)",
+                'data' => $par ,
+            ],
 
         ])
         //->options([]);
-        ->optionsRaw("{
+        /*->optionsRaw("{
             legend: {
                 display:true,
                 position: 'bottom',
@@ -241,6 +305,28 @@ class GraficosController extends Controller
                     render: 'value'
                 },
             }
+        }");*/
+        ->optionsRaw("{
+            legend: {
+                display:true,
+                position: 'bottom',
+                labels: {
+                    fontColor:  '#000'
+                }
+            },
+            plugins: {
+                labels: {
+                    render: 'value'
+                },
+            },
+            scales: {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
         }");
 
         //$obligado= number_format(($tabger02->sum('TabGer02Oblig') * 100) / $tabger02->sum('TabGer02PlanFin'),0,'.','.');
@@ -249,7 +335,7 @@ class GraficosController extends Controller
         ->name('pieChartTest')
         ->type('pie')
         ->size(['width' => 400, 'height' => 200])
-        ->labels(['No iniciado','Iniciado','Paralizado'])
+        ->labels(['A Iniciar','En Ejecución','Paralizado'])
         ->datasets([
             [
                 'backgroundColor' => ['#F6F454', '#1FDC61','#F86F5F'],
@@ -268,12 +354,18 @@ class GraficosController extends Controller
             plugins: {
                 labels: [
                     {
-                      render: 'label',
+                        render: function (args) {
+                            // args will be something like:
+                            // { label: 'Label', value: 123, percentage: 50, index: 0, dataset: {...} }
+                            return args.label +' '+ args.value+' proyectos';
+                            // return object if it is image
+                            // return { src: 'image.png', width: 16, height: 16 };
+                          },
                       position: 'outside'
                     },
                     {
                       render: 'percentage'
-                    }
+                    },
                   ]
             }
             
@@ -302,7 +394,13 @@ class GraficosController extends Controller
             plugins: {
                 labels: [
                     {
-                      render: 'label',
+                        render: function (args) {
+                            // args will be something like:
+                            // { label: 'Label', value: 123, percentage: 50, index: 0, dataset: {...} }
+                            return args.label +' '+ args.value+' proyectos';
+                            // return object if it is image
+                            // return { src: 'image.png', width: 16, height: 16 };
+                          },
                       position: 'outside'
                     },
                     {

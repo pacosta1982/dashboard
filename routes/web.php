@@ -25,6 +25,8 @@ Route::resource('/mapas', 'MapsController');
 
 Route::resource('/graficos', 'GraficosController');
 
+Route::resource('viviendas', 'ViviendaController');
+
 Route::get('/downloadhis', 'HomeController@csvhistorial');
 
 Route::post('/filtros', 'HomeController@index');
