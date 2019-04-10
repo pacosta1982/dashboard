@@ -119,7 +119,7 @@ class MapsController extends Controller
         $porcentajeid=$request->input('porcentajeid');
 
 
-        $map = Mapper::map(-25.3006592, -57.63591);
+        $map = Mapper::map(-25.3006592, -57.63591,['marker' => false]);
 
 
         foreach ($projects as $key => $project) {
