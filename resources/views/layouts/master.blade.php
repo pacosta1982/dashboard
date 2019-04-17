@@ -36,6 +36,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <script src="{{ asset("js/Chart.bundle.min.js")}}"></script>
     <script src="{{asset('js/chartjs-plugin-labels.js')}}"></script>
+    @laravelPWA
     @yield('css')
 </head>
 
