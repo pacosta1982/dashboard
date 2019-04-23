@@ -16,6 +16,7 @@ use App\Terreno;
 use App\Meta;
 use Mapper;
 use App\Exports\HistorialExport;
+use App\Exports\ProjectExport;
 
 class HomeController extends Controller
 {
@@ -36,8 +37,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        
-        
+
+
         //$projects = Project::paginate(10);
         $programas = Programa::all();
         $departamentos = Departamento::all();
@@ -68,14 +69,14 @@ class HomeController extends Controller
         if ($request->input('proyname')) {
 
             $searchTerm = $request->input('proyname');
-            $projects = $projects->where('SEOBProy', 'LIKE', "%{$searchTerm}%"); 
+            $projects = $projects->where('SEOBProy', 'LIKE', "%{$searchTerm}%");
 
         }
 
         if ($request->input('satname')) {
 
             $searchTermsat = $request->input('satname');
-            $projects = $projects->where('SEOBEmpr', 'LIKE', "%{$searchTermsat}%"); 
+            $projects = $projects->where('SEOBEmpr', 'LIKE', "%{$searchTermsat}%");
 
         }
 
@@ -110,29 +111,29 @@ class HomeController extends Controller
             if ($request->input('porcentajeid') == 4 ){
                 $projects = $projects->where('SEOBFisAva','>=', 76);
             }
-            
+
 
         }
 
-        
+
         $projects = $projects->paginate(10);
         $progid=$request->input('progid');
         $dptoid=$request->input('dptoid');
         $estadoid=$request->input('estadoid');
         $page=$request->input('page');
-        $expnro=$request->input('expnro'); 
+        $expnro=$request->input('expnro');
         $proyname=$request->input('proyname');
         $satname=$request->input('satname');
         $adminid=$request->input('adminid');
         $metaid=$request->input('metaid');
         $porcentajeid=$request->input('porcentajeid');
-        
+
         return view('projects.index',compact('projects','adminid','porcentajeid','administracion','metaid','programas','progid','departamentos','dptoid','estados','estadoid','page','expnro','proyname','satname','metas'));
     }
 
     public function show($id,Request $request)
     {
-        
+
         $project = Project::find($id);
         $observaciones = Observacion::where('SEOBId',$project->SEOBId)
         ->orderBy('SEOBFecObs', 'desc')
@@ -144,7 +145,7 @@ class HomeController extends Controller
         }else{
             $observacionesfonavis ='';
         }
-        
+
         //$project->SEOBUtmY
         //$this->ToLL(y,x,zone)
         try {
@@ -154,7 +155,7 @@ class HomeController extends Controller
             $map = Mapper::map(0, 0);
         }
 
-        
+
         $progid=$request->input('progid');
         $dptoid=$request->input('dptoid');
         $estadoid=$request->input('estadoid');
@@ -199,8 +200,76 @@ class HomeController extends Controller
 
     public function csvhistorial(Request $request)
     {
- 
-        return (new HistorialExport($request->input('idexp'),$request->input('NroExpS')))->download('Historial_expediente_'.$request->input('idexp').'.xlsx'); 
+
+        return (new HistorialExport($request->input('idexp'),$request->input('NroExpS')))->download('Historial_expediente_'.$request->input('idexp').'.xlsx');
+
+    }
+
+    public function downloadproject(Request $request)
+    {
+
+        if ($request->input('progid')) {
+            $programa = $request->input('progid');
+        }else {
+            $programa = '0';
+        }
+
+        if ($request->input('dptoid')) {
+            $departamento = $request->input('dptoid');
+        }else {
+            $departamento = '0';
+        }
+
+        if ($request->input('estadoid')) {
+            $estado = $request->input('estadoid');
+        }else {
+            $estado = '0';
+        }
+
+        if ($request->input('proyname')) {
+
+            $searchTerm = $request->input('proyname');
+            //$projects = $projects->where('SEOBProy', 'LIKE', "%{$searchTerm}%");
+
+        }else {
+            $searchTerm = '0';
+        }
+
+        if ($request->input('satname')) {
+
+            $searchTermsat = $request->input('satname');
+            //$projects = $projects->where('SEOBEmpr', 'LIKE', "%{$searchTermsat}%");
+
+        }else {
+            $searchTermsat = '0';
+        }
+
+        if ($request->input('adminid')) {
+
+            $admin = $request->input('adminid');
+
+        }else {
+            $admin = '0';
+        }
+
+        if ($request->input('metaid')) {
+
+            $meta = $request->input('metaid');
+
+        }else {
+            $meta = '0';
+        }
+
+        if ($request->input('porcentajeid')) {
+
+            $porcentaje = $request->input('porcentajeid');
+
+        }else {
+            $porcentaje = '0';
+        }
+
+
+        return (new ProjectExport($programa,$departamento,$estado,$searchTerm,$searchTermsat,$admin,$meta,$porcentaje))->download('Proyectos_'.$request->input('idexp').'.xlsx');
 
     }
 

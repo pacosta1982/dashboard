@@ -18,7 +18,7 @@
 
 @section('content')
 @php
-    
+
 
     $array = [
     "A" =>  "Compra de Terreno",
@@ -42,7 +42,7 @@
             <form action="/filtros" method="post">
                 @csrf
         <div class="row">
-            
+
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Programa</label>
@@ -97,7 +97,7 @@
                             <select class="form-control required" name="metaid" id="metaid">
                                 <option value="" >Seleccione una opción</option>
                                 @foreach($metas as $met)
-        
+
                                 <option value="{{$met->value}}"
                                  @if ($metaid == $met->value)
                                     selected="selected"
@@ -110,7 +110,7 @@
                     <label for="exampleInputEmail1">Expediente</label>
                 <input type="text" class="form-control" id="expnro" name="expnro" value="{{$expnro}}" placeholder="Ingrese N° de Expediente">
                 </div> -->
-                
+
             </div>
         </div>
         <div class="row">
@@ -118,15 +118,21 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Proyecto</label>
                         <input type="text" class="form-control" id="proyname" name="proyname" value="{{$proyname}}" placeholder="Ingrese Nombre de Proyecto">
-                        
+
                     </div>
                     <h4 class="box-title">Total Proyectos: {{ $projects->total() }}</h4>
+
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="exampleInputEmail1">SAT/EMPRESA</label>
                         <input type="text" class="form-control" id="satname" name="satname" value="{{$satname}}" placeholder="Ingrese Nombre de SAT/Empresa">
                     </div>
+                    <a href="{!! action('HomeController@downloadproject', ['progid' => $progid
+                        ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','expnro' =>$expnro,'proyname' =>$proyname,
+                        'satname' =>$satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}"><button type="button" class="btn btn-success  float-left"><i class="fa fa-file-excel-o"></i>
+              Exportar
+            </button></a>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
@@ -134,7 +140,7 @@
                         <select class="form-control required" name="adminid" id="adminid">
                             <option value="" >Seleccione una opción</option>
                             @foreach($administracion as $adm)
-    
+
                             <option value="{{$adm->value}}"
                              @if ($adminid == $adm->value)
                                 selected="selected"
@@ -153,12 +159,12 @@
                                     <option value="2" {{ old('progid',isset($porcentajeid)?$porcentajeid:'') == '2' ? "selected":""}}>26% - 50%</option>
                                     <option value="3" {{ old('progid',isset($porcentajeid)?$porcentajeid:'') == '3' ? "selected":""}}>51% - 75%</option>
                                     <option value="4" {{ old('progid',isset($porcentajeid)?$porcentajeid:'') == '4' ? "selected":""}}>76% - 100%</option>
-                                    
+
                                 </select>
-                            </div> 
-                        <button type="submit" class="btn btn-primary pull-right">Buscar</button> 
+                            </div>
+                        <button type="submit" class="btn btn-primary pull-right">Buscar</button>
                 </div>
-                
+
             </div>
     </div>
 </form>
@@ -169,8 +175,8 @@
 
     <div class="card">
             <div class="card-header">
-              
-              <div class="pull-right">{{ $projects->appends(request()->except('_token'))->links() }}</div>  
+
+              <div class="pull-right">{{ $projects->appends(request()->except('_token'))->links() }}</div>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
@@ -188,15 +194,15 @@
                   <th>Distrito</th>
                   <th>Departamento</th>
                   <th style="text-align:center;">Estado</th>
-                  
+
                   <th style="width: 40px">Avance</th>
                 </tr>
-                @foreach($projects as $project) 
+                @foreach($projects as $project)
                 <tr>
                 <td style="text-align:center;"><a href="{!! action('HomeController@showexp', ['id'=>$project->SEOBId,'NroExpS'=>$project->SEOBNroExpS,'idexp'=>$project->SEOBNroExp,'progid' => $progid
                         ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','expnro' =>$expnro,'proyname' =>$proyname,
                         'satname' =>$satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">{{(substr($project->SEOBNroExp,0,-2)).'-'.(substr($project->SEOBNroExp,-2))}}</a></td>
-                <td><a href="{!! action('HomeController@show', ['id'=>$project->SEOBId,'progid' => $progid 
+                <td><a href="{!! action('HomeController@show', ['id'=>$project->SEOBId,'progid' => $progid
                         ,'dptoid' => $dptoid,'estadoid' => $estadoid,'page' => $page,'idtipo'=>'1','expnro' =>$expnro,'proyname' =>$proyname,
                         'satname' =>$satname,'adminid' =>$adminid,'metaid' =>$metaid,'porcentajeid' =>$porcentajeid]) !!}">{{utf8_encode($project->SEOBProy)}}</a></td>
                 <td>{{utf8_encode($project->SEOBEmpr)}}</td>

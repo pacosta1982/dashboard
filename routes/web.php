@@ -29,6 +29,8 @@ Route::resource('viviendas', 'ViviendaController');
 
 Route::get('/downloadhis', 'HomeController@csvhistorial');
 
+Route::get('/downloadproject', 'HomeController@downloadproject');
+
 Route::post('/filtros', 'HomeController@index');
 Route::get('/filtros', 'HomeController@index');
 
