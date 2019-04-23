@@ -112,13 +112,13 @@ class ProjectExport implements FromQuery, WithHeadings, WithMapping, ShouldAutoS
         ];
 
         return [
-            rtrim($invoice->SEOBProy),
-            rtrim($invoice->SEOBEmpr),
+            rtrim(utf8_encode($invoice->SEOBProy)),
+            rtrim(utf8_encode($invoice->SEOBEmpr)),
             $invoice->SEOBViv,
-            $array[rtrim($invoice->SEOBTerr)],
-            rtrim($invoice->CiuId?$invoice->distrito->CiuNom:""),
-            rtrim($invoice->DptoId?$invoice->departamento->DptoNom:""),
-            rtrim($invoice->SEOBEst?$invoice->estado->name:""),
+            $array[rtrim(utf8_encode($invoice->SEOBTerr))],
+            utf8_encode(rtrim($invoice->CiuId?$invoice->distrito->CiuNom:"")),
+            utf8_encode(rtrim($invoice->DptoId?$invoice->departamento->DptoNom:"")),
+            utf8_encode(rtrim($invoice->SEOBEst?$invoice->estado->name:"")),
             number_format($invoice->SEOBFisAva,0,'.','.').' %',
 
             //$invoice->DEUnOrHa?$invoice->deporigen->DepenDes:"",

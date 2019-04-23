@@ -269,7 +269,7 @@ class HomeController extends Controller
         }
 
 
-        return (new ProjectExport($programa,$departamento,$estado,$searchTerm,$searchTermsat,$admin,$meta,$porcentaje))->download('Proyectos_'.$request->input('idexp').'.xlsx');
+        return (new ProjectExport($programa,$departamento,$estado,$searchTerm,$searchTermsat,$admin,$meta,$porcentaje))->download('Listado de Proyectos'.'.xlsx');
 
     }
 
