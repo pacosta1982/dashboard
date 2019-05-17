@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/{id}', 'HomeController@show');
 Route::get('/home/{id}/exp/{idexp}', 'HomeController@showexp');
 
+Route::get('proyecto', 'ProjectController@showproject');
+
 Route::resource('/mapas', 'MapsController');
 
 Route::resource('/graficos', 'GraficosController');
