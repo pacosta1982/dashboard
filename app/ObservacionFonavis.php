@@ -8,7 +8,7 @@ class ObservacionFonavis extends Model
 {
     protected $table = 'SEGPROY1';
 
-    //protected $connection = 'sqlsrv';
+    protected $connection = 'sqlsrv';
 
     //protected $primaryKey = 'SEOBId';
 

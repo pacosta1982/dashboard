@@ -10,6 +10,8 @@ class Distrito extends Model
 
     protected $primaryKey = 'CiuId';
 
+    protected $connection = 'sqlsrv';
+
     //protected $connection = 'sqlsrv';
     
 
